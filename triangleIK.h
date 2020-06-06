@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "triangle.h"
 #include "vector3.h"
 
 struct triangleIK
@@ -8,14 +9,41 @@ struct triangleIK
     Vector3 *Target;
     Vector3 *Origin;
 
-    float bow1Length;
-    float bow2Length;
+    float bow1Length = 1;
+    float bow2Length = 1;
 
     triangleIK(Vector3 *t = Vector3::One())
     {
         this->Origin = Vector3::Zero();
         this->Target = t;
     }
+
+    Triangle *triangle()
+    {
+        return Triangle::from3edges(
+            bow1Length,
+            bow2Length,
+            this->TriangleEdgeLength());
+    }
+
+    float bow1Angle()
+    {
+        Triangle *triangle = this->triangle();
+        Angle *angle = triangle->angleB;
+        float result = 90.0 - angle->Degree() - this->Tilt();
+
+        delete triangle;
+        return result;
+    };
+    float bow2Angle()
+    {
+        Triangle *triangle = this->triangle();
+        Angle *angle = triangle->angleC;
+        float result = 180 - angle->Degree();
+
+        delete triangle;
+        return result;
+    };
 
     float MinLength()
     {
@@ -45,6 +73,10 @@ struct triangleIK
 
     float EdgeLength()
     {
+        printf(
+            "EdgeLength: X=%4.2f Y=%4.2f ",
+            this->XLength(),
+            this->YLength());
         return sqrtf(
             this->XLength() * this->XLength() +
             this->YLength() * this->YLength());
@@ -95,7 +127,16 @@ struct triangleIK
     void dump()
     {
         printf("triangleIK:\n");
+        printf("Length: %4.2f ～ %4.2f \n", this->MinLength(), this->MaxLength());
         printf("Edge= %4.2f \n", this->EdgeLength());
+
+        printf(
+            "ARMS:\n"
+            "\tBack = %4.2f ANGLE= %4.2f \n"
+            "\tForward = %4.2f ANGLE= %4.2f \n",
+            this->bow1Length, this->bow1Angle(),
+            this->bow2Length, this->bow2Angle());
+
         printf("Pan= %4.2f \n", this->rotationY());
         printf("Tilt= %4.2f \n", this->rotationX());
     }

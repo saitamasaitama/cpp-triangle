@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "triangle.h"
+
 #include "triangleIK.h"
 
 int main()
@@ -9,10 +9,10 @@ int main()
   printf("ANGLE (RAD=%4.2f DEG=%4.2f )\n", a->Radian(), a->Degree());
   a->dump();
 
-  Triangle *tri = Triangle::from3edges(3, 4, 5);
+  triangleIK *ik = new triangleIK(
+      new Vector3(1, 1, 1));
 
-  triangleIK *ik = new triangleIK();
-  tri->dump();
+  ik->dump();
   ik->dump();
   return 0;
 }

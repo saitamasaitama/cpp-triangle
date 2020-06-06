@@ -63,6 +63,13 @@ struct Triangle
         return result;
     };
 
+    ~Triangle()
+    {
+        delete this->angleA;
+        delete this->angleB;
+        delete this->angleC;
+    }
+
     void dump()
     {
 
