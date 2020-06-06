@@ -12,9 +12,15 @@ struct triangleIK
     float bow1Length = 1;
     float bow2Length = 1;
 
-    triangleIK(Vector3 *t = Vector3::One())
+    triangleIK(
+        float bow1Length,
+        float bow2Length,
+        Vector3 *t = Vector3::One()
+        )
     {
         this->Origin = Vector3::Zero();
+        this->bow1Length=bow1Length;
+        this->bow2Length=bow2Length;
         this->Target = t;
     }
 
@@ -116,7 +122,6 @@ struct triangleIK
     };
 
     //先端の位置
-
     /*
     Vector3 Tip()
     {
