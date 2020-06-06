@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "triangle.h"
-#include "vector3.h"
+#include "triangleIK.h"
+
 int main()
 {
   printf("OK OK\n");
@@ -10,6 +11,8 @@ int main()
 
   Triangle *tri = Triangle::from3edges(3, 4, 5);
 
+  triangleIK *ik = new triangleIK();
   tri->dump();
+  ik->dump();
   return 0;
 }
